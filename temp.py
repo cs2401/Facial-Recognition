@@ -29,21 +29,25 @@ def read_pgm(filename, byteorder='>'):
     return image_downsampled
 
 
-#array = read_pgm('1.pgm')
-#print(array.shape)
+array = read_pgm('1.pgm')
+print(array)
+print('\n')
+print(array.reshape(644))
+print('\n')
+print(array.reshape(28,23))
 
 def arr(name):
     array = read_pgm(name)
     return array
 
 
-images = np.empty((100,644))
-targets = np.empty(100).astype(np.uint8)
+#images = np.empty((100,644))
+#targets = np.empty(100).astype(np.uint8)
 
-for j in range(10):
-    for i in range(10):
-        if i != 5 and i!= 6:
-            n = 10*j + i
-            image = read_pgm(f"s{j+1}\{i+1}.pgm", byteorder='<')
-            images[n] = image.reshape(644)
-            targets[n] = j
+#for j in range(10):
+#    for i in range(10):
+#        if i != 5 and i!= 6:
+#            n = 10*j + i
+#            image = read_pgm(f"s{j+1}\{i+1}.pgm", byteorder='<')
+#            images[n] = image.reshape(644)
+#            targets[n] = j
