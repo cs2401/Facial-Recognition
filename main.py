@@ -38,20 +38,26 @@ def calculate_yi(q, i):
     return d_i
 
 
-images = np.empty((100,644))
-targets = np.empty(100).astype(np.uint8)
+images = np.empty((400,644))
+targets = np.empty(400).astype(np.uint8)
 
 
-for j in range(10):
+for j in range(40):
     for i in range(10):
         n = 10*j + i
-        image = read_pgm(f"s{j+1}/{i+1}.pgm", byteorder='<')
+        image = read_pgm(f"FaceDataset\s{j+1}\{i+1}.pgm", byteorder='<')
         images[n] = image.reshape(644)
         targets[n] = j
 
 from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(images, targets,test_size=0.3)
+
+def train():
+    return X_train, y_train
+
+def test():
+    return X_test, y_test
 
 
 q = X_test[y_test == 5][0]

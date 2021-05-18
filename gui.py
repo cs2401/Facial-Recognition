@@ -48,7 +48,7 @@ C = Canvas(gui, height=200, width=320)
 #arr2 = arr2.resize((115, 140), Image.ANTIALIAS)
 #img2 =  ImageTk.PhotoImage(arr2)
 
-lst = []
+test_set = []
 for i in range(4):
     string = str(i+1) + '.pgm'
     arr1 = Image.fromarray(arr(string))
