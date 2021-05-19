@@ -15,7 +15,7 @@ def task1():
     global rand_test
 
     rand_test = random.randint(0, (len(test_images) - 1))
-    
+
     current_image = test_images[rand_test]
 
     # Changes the image1 (left) to this test image
@@ -57,16 +57,23 @@ def task2():
 
 
 def task3():
+    global hat_matrix
 
     predicted_class = model_predict(X_test[rand_test], hat_matrix)
 
-    predicted = np.where(y_train == predicted_class)
+    predicted = train_images[y_train == predicted_class]
 
-    print(predicted[0][0])
+    face1 = predicted[0]
 
-    C.itemconfig(image2, image=train_images[predicted[0][0]])
+    # print(face1)
 
-    gui.after(5000, task1)
+    # predicted = np.where(y_train == predicted_class)
+
+    # print(predicted)
+
+    C.itemconfig(image2, image=face1)
+
+    gui.after(3000, task1)
 
 
     
