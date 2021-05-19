@@ -108,10 +108,10 @@ def image_array(array):
 
 # Gets the training data, test_data and hat matrix from the model.py
 
-person_count = 40
+person_count = 12
 image_per_person_count = 10
 test_split = 0.5
-dataset = 1
+dataset = 2
 
 
 X_train, X_test, y_train, y_test = generate_data(

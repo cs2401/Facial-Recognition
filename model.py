@@ -38,7 +38,7 @@ def calculate_yi(q, i, X, y):
     return d_i
 
 
-def generate_data(split, person_count=40, image_count_per_person=10):
+def generate_data(split, dataset=1, person_count=40, image_count_per_person=10):
     test_count_per_person = round(image_count_per_person * split)
     train_count_per_person = image_count_per_person - test_count_per_person
 
@@ -57,7 +57,8 @@ def generate_data(split, person_count=40, image_count_per_person=10):
         images = np.empty((image_count_per_person, 644))
         targets = np.empty((image_count_per_person))
         for i in range(image_count_per_person):
-            image = read_pgm(f"FaceDataset2/s{j+1}/{i+1}.pgm", byteorder='<')
+            image = read_pgm(
+                f"FaceDataset{dataset}/s{j+1}/{i+1}.pgm", byteorder='<')
             images[i] = image.reshape(644)
 
         person_X_train, person_X_test, person_y_train, person_y_test = train_test_split(images, targets,
@@ -122,8 +123,12 @@ def evaluate_model(hat_matrix, X_test, y_test, person_count):
 def main():
     person_count = 12
     image_per_person_count = 10
+    test_split = 0.4
+    dataset = 2
+
     X_train, X_test, y_train, y_test = generate_data(
-        0.4, person_count, image_per_person_count)
+        test_split, dataset, person_count, image_per_person_count)
+
     hat_matrix = train_model(X_train, y_train, person_count)
 
     accuracy = evaluate_model(hat_matrix, X_test, y_test, person_count)
