@@ -20,6 +20,7 @@ def task1():
 
     # Changes the image1 (left) to this test image
     C.itemconfig(image1, image=current_image)
+    C.itemconfig(image2, image=imgempty)
 
     # Goes to task2 after 2 seconds
     gui.after(2000, task2)
@@ -64,12 +65,6 @@ def task3():
     predicted = train_images[y_train == predicted_class]
 
     face1 = predicted[0]
-
-    # print(face1)
-
-    # predicted = np.where(y_train == predicted_class)
-
-    # print(predicted)
 
     C.itemconfig(image2, image=face1)
 
@@ -116,12 +111,18 @@ train_images = image_array(X_train)
 test_images = image_array(X_test)
 
 
+zeros = np.zeros((28,23))
+grey = np.where(zeros < 20, 240, zeros)
+
+empty = Image.fromarray(grey)
+empty= empty.resize((115, 140), Image.ANTIALIAS)
+imgempty =  ImageTk.PhotoImage(empty)
 
 # Creates the image objects.
 # These will be updated by the tasks to display different images
-image1 = C.create_image(30, 20, anchor=NW, image=test_images[0])
+image1 = C.create_image(30, 20, anchor=NW, image=imgempty)
 
-image2 = C.create_image(175, 20, anchor=NW, image=train_images[0])
+image2 = C.create_image(175, 20, anchor=NW, image=imgempty)
 
 C.pack()
 
