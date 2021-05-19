@@ -7,7 +7,9 @@ This program aims to automatically process and downsample images to recognize an
 ### Authors - Group 33
 
 Benjamin Podmore (22504617)
+
 Chintan Shah (22497366)
+
 Ahbar Sakib (22512321)
 
 ### Version
@@ -21,7 +23,7 @@ v1.19.05.2021
 	
     c. Readme File which contains how to run the program
 		i. Containing how to download the extra modules and packages
-        
+
 	d. Possibly an environment file (eg. Yaml file) if we are planning to use conda
 
 ### Using the software
