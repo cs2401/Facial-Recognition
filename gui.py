@@ -1,11 +1,9 @@
 from tkinter import *
 from PIL import Image, ImageTk
 import numpy as np
-from temp import *
 import time
-from main import *
 import random
-
+from model import *
 
 
 # The fuction picks a random test image and proceeds to task2
@@ -13,9 +11,12 @@ def task1():
 
     # Selects a random test image to find using the linear regression
     # Updates the current image variable used
-    rand = random.randint(0, (len(test_images) - 1))
-    global current_image
-    current_image = test_images[rand]
+
+    global rand_test
+
+    rand_test = random.randint(0, (len(test_images) - 1))
+    
+    current_image = test_images[rand_test]
 
     # Changes the image1 (left) to this test image
     C.itemconfig(image1, image=current_image)
@@ -38,7 +39,7 @@ def task2():
 
         C.itemconfig(image2, image=train_images[rand])
 
-        gui.after(100, task1)
+        gui.after(100, task3)
 
         count = 0
     
@@ -55,7 +56,20 @@ def task2():
         count += 1
 
 
+def task3():
 
+    predicted_class = model_predict(X_test[rand_test], hat_matrix)
+
+    predicted = np.where(y_train == predicted_class)
+
+    print(predicted[0][0])
+
+    C.itemconfig(image2, image=train_images[predicted[0][0]])
+
+    gui.after(5000, task1)
+
+
+    
 # Creates the Gui object model
 # We add widgets to the gui object
 gui = Tk()
@@ -63,10 +77,6 @@ gui = Tk()
 
 # Creates the canvas being used
 C = Canvas(gui, height=200, width=320)
-
-
-X_train, y_train = train()
-X_test, y_test = test()
 
 # Given an np array of arrays of images as (644,) we want to create an list of the image objects
 # We can use these to update the config for image1 and image2
@@ -89,6 +99,10 @@ def image_array(array):
         images_arr[i] = img1
     
     return images_arr
+
+# Gets the training data, test_data and hat matrix from the model.py
+X_train, X_test, y_train, y_test = generate_data(0.5)
+hat_matrix = train_model(X_train, y_train)
 
 # Creates an image object array from the Training and Test set
 train_images = image_array(X_train)
@@ -119,7 +133,7 @@ B2.pack()
 
 # This is a global variable shared between all the task function
 # It is the current test image being inspected
-current_image = test_images[0]
+rand_test = 0
 
 
 # Executes task1 after 2 seconds
@@ -129,3 +143,4 @@ gui.after(2000, task1)
 # Once all widgets are added the application is launched by this infinite loop
 # The loop continues until the application is closed
 gui.mainloop()
+
