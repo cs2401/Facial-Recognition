@@ -8,26 +8,32 @@ import random
 
 
 
-# The gui switches back and forth from these 2 functions every 2 seconds
+# The fuction picks a random test image and proceeds to task2
 def task1():
 
+    # Selects a random test image to find using the linear regression
+    # Updates the current image variable used
     rand = random.randint(0, (len(test_images) - 1))
-
     global current_image
-
     current_image = test_images[rand]
 
-    C.itemconfig(image1, image=test_images[rand])
+    # Changes the image1 (left) to this test image
+    C.itemconfig(image1, image=current_image)
 
+    # Goes to task2 after 2 seconds
     gui.after(2000, task2)
-    #print(1)
 
+
+# The function cycles through a random test images and proceeds to task 3
 count = 0
 def task2():
 
     global count
 
+    # If the function has completed 5 loop it moves to task 3
     if count == 5:
+
+        # Updates the image2 (right) to a random image
         rand = random.randint(0, (len(train_images) - 1))
 
         C.itemconfig(image2, image=train_images[rand])
@@ -35,21 +41,19 @@ def task2():
         gui.after(100, task1)
 
         count = 0
-        #print(2)
     
+    # Cycles through 5 random images before predicting the actual match.
     else:
+
+        # Updates the image2 (right) to a random image
         rand = random.randint(0, (len(train_images) - 1))
 
         C.itemconfig(image2, image=train_images[rand])
 
         gui.after(100, task2)
 
-        #print(3)
-
         count += 1
 
-
-    
 
 
 # Creates the Gui object model
@@ -60,22 +64,6 @@ gui = Tk()
 # Creates the canvas being used
 C = Canvas(gui, height=200, width=320)
 
-#filename = PhotoImage(file = "peppers.png")
-
-
-#arr1 = Image.fromarray(arr('1.pgm'))
-#arr1 = arr1.resize((115, 140), Image.ANTIALIAS)
-#img1 =  ImageTk.PhotoImage(arr1)
-#print(type(img1))
-
-#arr3 = Image.fromarray(arr('3.pgm'))
-#arr3 = arr3.resize((115, 140), Image.ANTIALIAS)
-#img3 =  ImageTk.PhotoImage(arr3)
-
-#arr2 = Image.fromarray(arr('1.pgm'))
-#arr2 = arr2.resize((115, 140), Image.ANTIALIAS)
-#img2 =  ImageTk.PhotoImage(arr2)
-
 
 X_train, y_train = train()
 X_test, y_test = test()
@@ -85,10 +73,16 @@ X_test, y_test = test()
 def image_array(array):
     length = len(array)
 
+    # Array of image objects used by the gui
     images_arr = np.empty((length), dtype=PhotoImage)
 
+    # Goes through the length of the array to change all the arrays inside to image objects
     for i in range(length):
+
+        # The internal arrays come in as (644,) we want them as (28,23)
         reshaped = array[i].reshape(28,23)
+
+        # Adds to the array of the image objects
         arr1 = Image.fromarray(reshaped)
         arr1 = arr1.resize((115, 140), Image.ANTIALIAS)
         img1 =  ImageTk.PhotoImage(arr1)
@@ -96,12 +90,14 @@ def image_array(array):
     
     return images_arr
 
+# Creates an image object array from the Training and Test set
 train_images = image_array(X_train)
 test_images = image_array(X_test)
 
 
 
-
+# Creates the image objects.
+# These will be updated by the tasks to display different images
 image1 = C.create_image(30, 20, anchor=NW, image=test_images[0])
 
 image2 = C.create_image(175, 20, anchor=NW, image=train_images[0])

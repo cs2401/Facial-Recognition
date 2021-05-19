@@ -29,12 +29,12 @@ def read_pgm(filename, byteorder='>'):
     return image_downsampled
 
 
-array = read_pgm('1.pgm')
-print(array)
-print('\n')
-print(array.reshape(644))
-print('\n')
-print(array.reshape(28,23))
+#array = read_pgm('1.pgm')
+#print(array)
+#print('\n')
+#print(array.reshape(644))
+#print('\n')
+#print(array.reshape(28,23))
 
 def arr(name):
     array = read_pgm(name)
