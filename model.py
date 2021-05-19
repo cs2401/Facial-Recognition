@@ -2,7 +2,6 @@ from sklearn.model_selection import train_test_split
 import re
 import numpy as np
 from skimage.measure import block_reduce
-from matplotlib import pyplot
 
 
 def read_pgm(filename, byteorder='>'):
@@ -58,7 +57,7 @@ def generate_data(split, person_count=40, image_count_per_person=10):
         images = np.empty((image_count_per_person, 644))
         targets = np.empty((image_count_per_person))
         for i in range(image_count_per_person):
-            image = read_pgm(f"FaceDataset/s{j+1}/{i+1}.pgm", byteorder='<')
+            image = read_pgm(f"FaceDataset2/s{j+1}/{i+1}.pgm", byteorder='<')
             images[i] = image.reshape(644)
 
         person_X_train, person_X_test, person_y_train, person_y_test = train_test_split(images, targets,
@@ -108,12 +107,12 @@ def model_predict(q, hat_matrix, person_count=40):
     return distances.index(min(distances))
 
 
-def evaluate_model(hat_matrix, X_test, y_test):
+def evaluate_model(hat_matrix, X_test, y_test, person_count):
     total_count = len(y_test)
     correct_count = 0
     for i in range(len(y_test)):
         q = X_test[i]
-        predicted_class = model_predict(q, hat_matrix)
+        predicted_class = model_predict(q, hat_matrix, person_count)
         if predicted_class == y_test[i]:
             correct_count += 1
     accuracy = correct_count / total_count
@@ -121,13 +120,13 @@ def evaluate_model(hat_matrix, X_test, y_test):
 
 
 def main():
-    person_count = 40
+    person_count = 12
     image_per_person_count = 10
     X_train, X_test, y_train, y_test = generate_data(
         0.4, person_count, image_per_person_count)
     hat_matrix = train_model(X_train, y_train, person_count)
 
-    accuracy = evaluate_model(hat_matrix, X_test, y_test)
+    accuracy = evaluate_model(hat_matrix, X_test, y_test, person_count)
     print(accuracy)
 
 

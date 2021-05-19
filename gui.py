@@ -28,6 +28,8 @@ def task1():
 
 # The function cycles through a random test images and proceeds to task 3
 count = 0
+
+
 def task2():
 
     global count
@@ -43,7 +45,7 @@ def task2():
         gui.after(100, task3)
 
         count = 0
-    
+
     # Cycles through 5 random images before predicting the actual match.
     else:
 
@@ -71,7 +73,6 @@ def task3():
     gui.after(3000, task1)
 
 
-    
 # Creates the Gui object model
 # We add widgets to the gui object
 gui = Tk()
@@ -82,6 +83,8 @@ C = Canvas(gui, height=200, width=320)
 
 # Given an np array of arrays of images as (644,) we want to create an list of the image objects
 # We can use these to update the config for image1 and image2
+
+
 def image_array(array):
     length = len(array)
 
@@ -92,18 +95,19 @@ def image_array(array):
     for i in range(length):
 
         # The internal arrays come in as (644,) we want them as (28,23)
-        reshaped = array[i].reshape(28,23)
+        reshaped = array[i].reshape(28, 23)
 
         # Adds to the array of the image objects
         arr1 = Image.fromarray(reshaped)
         arr1 = arr1.resize((115, 140), Image.ANTIALIAS)
-        img1 =  ImageTk.PhotoImage(arr1)
+        img1 = ImageTk.PhotoImage(arr1)
         images_arr[i] = img1
-    
+
     return images_arr
 
+
 # Gets the training data, test_data and hat matrix from the model.py
-X_train, X_test, y_train, y_test = generate_data(0.5)
+X_train, X_test, y_train, y_test = generate_data(0.5, 12)
 hat_matrix = train_model(X_train, y_train)
 
 # Creates an image object array from the Training and Test set
@@ -111,12 +115,12 @@ train_images = image_array(X_train)
 test_images = image_array(X_test)
 
 
-zeros = np.zeros((28,23))
+zeros = np.zeros((28, 23))
 grey = np.where(zeros < 20, 240, zeros)
 
 empty = Image.fromarray(grey)
-empty= empty.resize((115, 140), Image.ANTIALIAS)
-imgempty =  ImageTk.PhotoImage(empty)
+empty = empty.resize((115, 140), Image.ANTIALIAS)
+imgempty = ImageTk.PhotoImage(empty)
 
 # Creates the image objects.
 # These will be updated by the tasks to display different images
@@ -127,7 +131,7 @@ image2 = C.create_image(175, 20, anchor=NW, image=imgempty)
 C.pack()
 
 
-# Adds text to the Canvas 
+# Adds text to the Canvas
 C.create_text(90, 10, text="Looking For ....", font="Times 10 italic bold")
 
 C.create_text(230, 10, text="Found!", font="Times 10 italic bold")
@@ -151,4 +155,3 @@ gui.after(2000, task1)
 # Once all widgets are added the application is launched by this infinite loop
 # The loop continues until the application is closed
 gui.mainloop()
-
